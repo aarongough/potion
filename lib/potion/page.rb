@@ -1,5 +1,6 @@
 class Potion::Page
   include Potion::Renderable  
+  include Potion::Helpers
   
   attr_accessor :path, :site, :content, :metadata, :layout
   

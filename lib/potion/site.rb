@@ -8,6 +8,10 @@ class Potion::Site
     @@extensions << klass
   end
   
+  def self.remove_extension(klass)
+    @@extensions = @@extensions - [klass]
+  end
+  
   def self.extensions
     @@extensions
   end

@@ -29,6 +29,7 @@ describe Site do
     it "should add a class to the list of extensions" do
       Site.register_extension(String)
       Site.extensions.should == [String]
+      Site.remove_extension(String)
     end
   end
   

@@ -58,7 +58,7 @@ class Potion::Site
     end
   end
   
-  def write_to(path)
+  def write_to(destination_root)
     (@posts + @pages + @static_files).each do |item|
       item.write_to(path)
     end

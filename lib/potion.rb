@@ -4,6 +4,7 @@ end
 
 require 'yaml'
 require 'haml'
+require 'fileutils'
 
 require 'potion/renderable'
 require 'potion/layout'

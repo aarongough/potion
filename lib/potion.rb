@@ -2,6 +2,9 @@ module Potion
   
 end
 
+require 'rubygems'
+require 'bundler/setup'
+
 require 'yaml'
 require 'haml'
 require 'fileutils'

@@ -1,5 +1,7 @@
 module Potion
-  
+  module Helpers
+    
+  end
 end
 
 require 'rubygems'

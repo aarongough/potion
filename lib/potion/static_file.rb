@@ -14,12 +14,20 @@ class Potion::StaticFile
     @site == other.site
   end
   
+  def render
+    @site.class.extensions.each do |extension|
+      extension.new.process(self)
+    end
+    
+    @content
+  end
+  
   def write_to(destination_root)
     relative_path = @path.gsub(@site.path, "")
     destination_path = File.join(destination_root, relative_path)
     FileUtils.mkdir_p(File.split(destination_path)[0])
     File.open(destination_path, "w+") do |stream|
-      stream.puts @content
+      stream.puts self.render
     end
   end
 end

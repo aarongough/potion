@@ -25,21 +25,19 @@ describe Site do
     end
   end
   
+  describe '.register_extension' do
+    it "should add a class to the list of extensions" do
+      Site.register_extension(String)
+      Site.extensions.should == [String]
+    end
+  end
+  
   describe "#find_layouts" do
     it "should return all the layouts in the site" do
       site = Site.new(@fixture_path + "/test-site")
       site.find_layouts.should == [
         Layout.new(@fixture_path + "/test-site/_layouts/blog.haml", site),
         Layout.new(@fixture_path + "/test-site/_layouts/main.haml", site),
-      ]
-    end
-  end
-  
-  describe '#find_extensions' do
-    it "should return the site extensions and Potion's internal extensions" do
-      site = Site.new(@fixture_path + "/test-site")
-      site.find_extensions.should == [
-        @fixture_path + "/test-site/_extensions/test_extension.rb"
       ]
     end
   end

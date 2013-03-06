@@ -5,28 +5,16 @@ module Potion::Renderable
   end
   
   def render
+    @site.class.extensions.each do |extension|
+      extension.new.process(self)
+    end
+    
     layout  = Tilt.new(@layout.path) { @layout.content}
     item    = Tilt.new(@path) { @content }
     
     layout.render(self) do
       item.render(self)
     end
-  end
-  
-  def load_extensions
-    @site.extensions.each do |extension|
-      instance_eval File.open(extension) {|stream| stream.read}
-    end
-  end
-  
-  def register_extension(name, &block)
-    @extensions ||= {}
-    @extensions[name.to_sym] = block
-  end
-  
-  def method_missing(name, *args)
-    super unless @extensions.has_key?(name.to_sym)
-    @extensions[name.to_sym].call(args)
   end
   
   def write_to(destination_root)

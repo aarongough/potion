@@ -1,5 +1,6 @@
 class Potion::Post
   include Potion::Renderable
+  include Potion::Helpers
   
   attr_accessor :path, :static_files, :site, :metadata, :content, :layout
   
@@ -11,8 +12,6 @@ class Potion::Post
                     map {|x| Potion::StaticFile.new(x, @site)}
                     
     load_content_and_metadata
-    load_extensions
-    
     @layout = @site.find_layout_by_name(@metadata["layout"])
   end
   

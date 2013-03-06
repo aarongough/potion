@@ -20,4 +20,14 @@ class Potion::Post
     @static_files == other.static_files && 
     @site == other.site
   end
+  
+  def write_to(destination_root)
+    relative_path = @path.gsub(@site.base_path, "")
+    destination_path = File.join(destination_root, relative_path).gsub(File.extname(@path), ".html").gsub("_posts/", "")
+    
+    FileUtils.mkdir_p(File.split(destination_path)[0])
+    File.open(destination_path, "w+") do |stream|
+      stream.puts self.render
+    end
+  end
 end

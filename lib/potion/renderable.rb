@@ -5,17 +5,10 @@ module Potion::Renderable
   end
   
   def render
-    Haml::Engine.new(@layout.content).render do
-      Haml::Engine.new(content).render
+    Haml::Engine.new(@layout.content).render(self) do
+      Haml::Engine.new(content).render(self)
     end
   end
   
-  def write_to(destination_root)
-    relative_path = @path.gsub(@site.path, "")
-    destination_path = File.join(destination_root, relative_path).gsub(File.extname(@path), ".html")
-    FileUtils.mkdir_p(File.split(destination_path)[0])
-    File.open(destination_path, "w+") do |stream|
-      stream.puts self.render
-    end
-  end
+  
 end

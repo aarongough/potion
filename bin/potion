@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'potion'
+require 'fileutils'
 require 'commander/import'
 
 program :version, Potion::VERSION.to_s
@@ -13,9 +14,11 @@ command :preview do |c|
   c.summary = ''
   c.description = ''
   c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.option '--no-auto', 'Turn off automatic regeneration, only do this if you are having performance issues'
   c.action do |args, options|
     site_root = `pwd`.strip
+    destination = File.join(site_root, "_site")
+    FileUtils.rm_rf(destination)
     if !options.no_auto.nil?
       site = Potion::Site.new(site_root)
       site.write_to(File.join(site_root, "_site"))

@@ -1,6 +1,6 @@
 class Potion::Site
-  
-  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files
+  include Potion
+  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :base_path
   
   def initialize(base_path)
     @base_path  = base_path
@@ -14,7 +14,7 @@ class Potion::Site
   end
   
   def load_config
-    config_path = @base_path + "/_config.yaml"
+    config_path = File.join(@base_path, "_config.yaml")
     raise "No config file found at #{config_path}" unless File.exists?(config_path)
     YAML.load(File.open(config_path))
   end
@@ -60,7 +60,7 @@ class Potion::Site
   
   def write_to(destination_root)
     (@posts + @pages + @static_files).each do |item|
-      item.write_to(path)
+      item.write_to(destination_root)
     end
   end
   

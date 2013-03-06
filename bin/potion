@@ -4,7 +4,10 @@ require 'rubygems'
 require 'bundler/setup'
 require 'potion'
 require 'fileutils'
+require 'webrick'
 require 'commander/import'
+
+include WEBrick
 
 program :version, Potion::VERSION.to_s
 program :description, 'A simple, extensible, static site generator that supports code, photos and files'
@@ -25,6 +28,14 @@ command :preview do |c|
     else
       
     end
+    
+    server = HTTPServer.new(:Port => 4000, :BindAddress => "localhost")
+    server.mount("/", HTTPServlet::FileHandler, destination)
+    
+    
+    thread = Thread.new { server.start }
+    trap("INT") { server.shutdown }
+    thread.join()
   end
 end
 

@@ -1,12 +1,13 @@
 class Potion::Site
   include Potion
-  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :base_path
+  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :base_path, :extensions
   
   def initialize(base_path)
     @base_path  = base_path
     @config     = load_config
     
     @files        = find_all_files
+    @extensions   = find_extensions
     @layouts      = find_layouts
     @posts        = find_posts
     @pages        = find_pages
@@ -23,8 +24,14 @@ class Potion::Site
     Dir[@base_path + "/**/*.*"]
   end
   
+  def find_extensions
+    site_extensions = @files.select {|path| path.include?("_extensions") && File.extname(path) == ".rb" }
+    internal_extensions = Dir[File.expand_path("/extensions/*.rb", __FILE__)]
+    internal_extensions + site_extensions
+  end
+  
   def find_layouts
-    layouts = @files.select {|file| file.include? "_layouts"}
+    layouts = @files.select {|path| path.include? "_layouts"}
     layouts.map do |layout|
       Layout.new(layout, self)
     end

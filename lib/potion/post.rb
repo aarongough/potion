@@ -11,6 +11,8 @@ class Potion::Post
                     map {|x| Potion::StaticFile.new(x, @site)}
                     
     load_content_and_metadata
+    load_extensions
+    
     @layout = @site.find_layout_by_name(@metadata["layout"])
   end
   

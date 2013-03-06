@@ -35,6 +35,15 @@ describe Site do
     end
   end
   
+  describe '#find_extensions' do
+    it "should return the site extensions and Potion's internal extensions" do
+      site = Site.new(@fixture_path + "/test-site")
+      site.find_extensions.should == [
+        @fixture_path + "/test-site/_extensions/test_extension.rb"
+      ]
+    end
+  end
+  
   describe '#find_layout_by_name' do
     it "should return the named layout" do
       site = Site.new(@fixture_path + "/test-site")

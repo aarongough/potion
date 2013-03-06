@@ -13,6 +13,22 @@ module Potion::Renderable
     end
   end
   
+  def load_extensions
+    @site.extensions.each do |extension|
+      instance_eval File.open(extension) {|stream| stream.read}
+    end
+  end
+  
+  def register_extension(name, &block)
+    @extensions ||= {}
+    @extensions[name.to_sym] = block
+  end
+  
+  def method_missing(name, *args)
+    super unless @extensions.has_key?(name.to_sym)
+    @extensions[name.to_sym].call(args)
+  end
+  
   def write_to(destination_root)
     relative_path = @path.gsub(@site.base_path, "")
     

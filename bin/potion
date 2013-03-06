@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "bundler/setup"
+require 'potion'
+require 'commander/import'
+
+program :version, Potion::VERSION.to_s
+program :description, 'A simple, extensible, static site generator that supports code, photos and files'
+ 
+command :preview do |c|
+  c.syntax = 'potion preview [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Potion::Commands::Preview
+  end
+end
+

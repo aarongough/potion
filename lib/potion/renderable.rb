@@ -5,10 +5,11 @@ module Potion::Renderable
   end
   
   def render
-    Haml::Engine.new(@layout.content).render(self) do
-      Haml::Engine.new(content).render(self)
+    layout  = Tilt.new(@layout.path) { @layout.content}
+    item    = Tilt.new(@path) { @content }
+    
+    layout.render(self) do
+      item.render(self)
     end
   end
-  
-  
 end

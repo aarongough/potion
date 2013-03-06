@@ -6,7 +6,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'yaml'
-require 'haml'
+require 'tilt'
 require 'fileutils'
 
 require 'potion/renderable'

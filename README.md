@@ -130,6 +130,7 @@ Whatever the helper returns will be inserted into the calling layout, page or po
     @layout                 # a reference to the Layout object that is associated with the page or post
     
     @site.config            # a hash of the data loaded from the _config.yml file in the site's root
+    @site.metadata          # a hash that extensions and helpers can use to store data they generate
     @site.base_path         # the absolute path of the source site
     @site.destination_path  # the absolute path of the destination for the site
     @site.posts             # an array of all the posts in the site

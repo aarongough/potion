@@ -1,12 +1,10 @@
-module Potion::Helpers
-  def gallery(*args)
-    "GALLERY MOTHERFUCKER!! #{args.inspect}"
-  end
-  
-  
-end
+require 'mini_magick'
 
 module Potion::Helpers
+  def gallery(*args)
+    "GALLERY!! #{args.inspect}"
+  end
+  
   def christmas_annoyance(repeat = 0)
     output = ""
     repeat.times do
@@ -19,8 +17,6 @@ module Potion::Helpers
     output
   end
 end
-
-require 'mini_magick'
 
 class TooCheapForInstagram
   def process(item)
@@ -35,12 +31,12 @@ class TooCheapForInstagram
   end
 end
 
-Potion::Site.register_extension(TooCheapForInstagram)
-
 class MoreCowbell
   def process(item)
     item.content = item.content + "\nMORE COWBELL"
   end
 end
 
+
+Potion::Site.register_extension(TooCheapForInstagram)
 Potion::Site.register_extension(MoreCowbell)

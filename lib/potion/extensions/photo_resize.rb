@@ -8,7 +8,7 @@ class PhotoResize
     item.static_files.each do |file|
       next unless extensions.include?(File.extname(file.output_path).downcase)
       image = MiniMagick::Image.read(file.content)
-      image.resize("200x200")
+      image.resize(item.site.config["photo_resize"]["size"])
       file.content = image.to_blob
     end
   end

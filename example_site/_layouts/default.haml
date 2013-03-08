@@ -1,2 +1,6 @@
 Default Template
+
+- category("blog").each do |post|
+  = link_to(post.relative_output_path, post)
+
 = yield

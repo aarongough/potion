@@ -1,6 +1,6 @@
 class Potion::Site
   include Potion
-  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path
+  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path, :metadata
   
   @@extensions = []
   
@@ -21,6 +21,7 @@ class Potion::Site
     @destination_path = destination_path
     
     @config     = load_config
+    @metadata   = {}
     
     @files        = find_all_files
     

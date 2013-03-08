@@ -146,7 +146,7 @@ An extension is simply a Ruby class that responds to the `process` instance meth
 
 For instance if you wanted to apply some 'artsty' filters to all the photos in your website or blog you could write an extension like this:
 
-    #/_extensions/too_cheap_for_instragram.rb
+    #/_extensions/too_cheap_for_instagram.rb
     require 'mini_magick'
     
     class TooCheapForInstagram

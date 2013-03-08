@@ -33,9 +33,9 @@ Who should avoid Potion?
 Installing Potion
 =================
 
-Assuming that you already have Ruby and Rubygems installed, installing potion is a snap!
+Assuming that you already have Ruby and Rubygems installed, installing Potion is a snap!
 
-  gem install potion
+    gem install potion
   
 Directory Structure
 ===================

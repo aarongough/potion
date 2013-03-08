@@ -13,5 +13,4 @@ class Potion::Layout
     @path == other.path &&
     @site == other.site
   end
-  
 end

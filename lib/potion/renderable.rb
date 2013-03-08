@@ -1,4 +1,18 @@
-module Potion::Renderable  
+class Potion::Renderable  
+  include Potion::Helpers
+  
+  attr_accessor :path, :site, :metadata, :content, :layout, :output_path, :relative_output_path
+  
+  def initialize(path, site)
+    @path         = path
+    @site         = site
+                    
+    load_content_and_metadata
+    @layout = @site.find_layout_by_name(@metadata["layout"])
+    @relative_output_path ||= path.gsub(site.base_path, "").gsub(File.extname(path), "")
+    @output_path = File.join(@site.destination_path, @relative_output_path)
+  end
+  
   def load_content_and_metadata
     @content  = File.open(path) {|file| file.read}
     @metadata = YAML.load(@content.slice!(/---([^(\-\-\-)]*)---/, 0))
@@ -22,9 +36,14 @@ module Potion::Renderable
     File.open(@output_path, "w+") do |stream|
       stream.puts self.render
     end
-    
-    if self.is_a?(Potion::Post)
-      @static_files.each {|file| file.write }
+  end
+  
+  def ==(other)
+    return false unless self.class == other.class
+    self.instance_variables.each do |name|
+      return false unless self.instance_variable_get(name) == other.instance_variable_get(name)
     end
+    
+    true
   end
 end

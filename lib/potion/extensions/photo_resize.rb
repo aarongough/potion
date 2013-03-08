@@ -6,9 +6,10 @@ class PhotoResize
     extensions = [".jpg", ".jpeg", ".gif", ".png"]    
 
     item.static_files.each do |file|
-      next unless extensions.include?(File.extname(file.output_path))
-      #image = MiniMagick::Image.new(file.output_path)
-      #image.resize("20x20")
+      next unless extensions.include?(File.extname(file.output_path).downcase)
+      image = MiniMagick::Image.read(file.content)
+      image.resize("200x200")
+      file.content = image.to_blob
     end
   end
 end

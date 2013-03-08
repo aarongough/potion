@@ -44,31 +44,31 @@ Much like Jekyll, Potion uses the directory structure of your site to determine 
 
 A typical file structure for a Potion site would look like:
 
-  /
-  |- _config.yml
-  |- _extensions
-  |     |- photo_resizer.rb
-  |     |- more_cowbell_helper.rb
-  |
-  |- _layouts
-  |     |- main.haml
-  |     |- blog.haml
-  |
-  |- assets
-  |     |- main.js
-  |     |- main.sass
-  |
-  |- blog
-  |     |-_posts
-  |           |- 2013-04-03-post-1
-  |           |     |- post-1.html.haml <- Post
-  |           |     |- kittens.jpg 
-  |           |
-  |           |- 2013-04-05-post-2
-  |                 |- post-2.html.haml <- Post
-  |                 |- not-a-virus.exe    
-  |
-  |- index.html.haml <- Page
+    /
+    |- _config.yml
+    |- _extensions
+    |     |- photo_resizer.rb
+    |     |- more_cowbell_helper.rb
+    |
+    |- _layouts
+    |     |- main.haml
+    |     |- blog.haml
+    |
+    |- assets
+    |     |- main.js
+    |     |- main.sass
+    |
+    |- blog
+    |     |-_posts
+    |           |- 2013-04-03-post-1
+    |           |     |- post-1.html.haml <- Post
+    |           |     |- kittens.jpg 
+    |           |
+    |           |- 2013-04-05-post-2
+    |                 |- post-2.html.haml <- Post
+    |                 |- not-a-virus.exe    
+    |
+    |- index.html.haml <- Page
   
   
 Types of content
@@ -98,45 +98,45 @@ There are two main ways of customizing how Potion functions: Helpers and Extensi
 
 Helpers are analagous to Rails Helpers, they are methods that you call from a page or post that provide some functionality. Potion ships with a number of built-in helpers, eg:
 
-  = # Find the first photo associated with the current Post that 
-  = # has the work 'kitten' in the filename and insert it here.
-  
-  = photo("kitten") 
+    = # Find the first photo associated with the current Post that 
+    = # has the work 'kitten' in the filename and insert it here.
+    
+    = photo("kitten") 
   
 Writing a helper is simple, just add a Ruby file to the `_extensions` directory in the root of your site:
 
-  # /_extensions/christmas_annoyance_helper.rb
-  module Potion::Helpers
-    def christmas_annoyance(repeat = 0)
-      output = ""
-      repeat.times do
-        output << "<p>Jingle, Jingle, Jingle bell rock<br />"
-        output << "What a bright time<br />"
-        output << "Jingle, Jingle, Jingle bell rock<br />"
-        output << "It's the right time</p>"
+    # /_extensions/christmas_annoyance_helper.rb
+    module Potion::Helpers
+      def christmas_annoyance(repeat = 0)
+        output = ""
+        repeat.times do
+          output << "<p>Jingle, Jingle, Jingle bell rock<br />"
+          output << "What a bright time<br />"
+          output << "Jingle, Jingle, Jingle bell rock<br />"
+          output << "It's the right time</p>"
+        end
+    
+        output
       end
-
-      output
     end
-  end
 
 Whatever the helper returns will be inserted into the calling layout, page or post at the position the helper was called. Helpers have full access to all the information that Potion gathers about your site. Some useful examples include:
 
-  @metadata               # a hash of the data loaded from the YAML header of the page or post
-  @output_path            # the path that the current file will be output to
-  @relative_output_path   # the path that the current will be output to relative to the root of the site
-  @static_files           # the list of static files associated with a Post, not available for pages
-  @site                   # a reference to the Site object that is associated with the page or post
-  @layout                 # a reference to the Layout object that is associated with the page or post
-  
-  @site.config            # a hash of the data loaded from the _config.yml file in the site's root
-  @site.base_path         # the absolute path of the source site
-  @site.destination_path  # the absolute path of the destination for the site
-  @site.posts             # an array of all the posts in the site
-  @site.pages             # an array of all the pages in the site
-  @site.static_files      # an array of all the static files in the site
-  @site.layouts           # an array of all the layouts in the site
-  @site.extensions        # an array of all the extensions currently loaded for the site
+    @metadata               # a hash of the data loaded from the YAML header of the page or post
+    @output_path            # the path that the current file will be output to
+    @relative_output_path   # the path that the current will be output to relative to the root of the site
+    @static_files           # the list of static files associated with a Post, not available for pages
+    @site                   # a reference to the Site object that is associated with the page or post
+    @layout                 # a reference to the Layout object that is associated with the page or post
+    
+    @site.config            # a hash of the data loaded from the _config.yml file in the site's root
+    @site.base_path         # the absolute path of the source site
+    @site.destination_path  # the absolute path of the destination for the site
+    @site.posts             # an array of all the posts in the site
+    @site.pages             # an array of all the pages in the site
+    @site.static_files      # an array of all the static files in the site
+    @site.layouts           # an array of all the layouts in the site
+    @site.extensions        # an array of all the extensions currently loaded for the site
   
 For more information on available attributes it's probably best just to refer to the code (there's not much of it, and it's clean!)
 
@@ -146,30 +146,30 @@ An extension is simply a Ruby class that responds to the `process` instance meth
 
 For instance if you wanted to apply some 'artsty' filters to all the photos in your website or blog you could write an extension like this:
 
-  #/_extensions/too_cheap_for_instragram.rb
-  require 'mini_magick'
-
-  class TooCheapForInstagram
-    def process(item)
-      return unless item.is_a?(Potion::StaticFile)
-      extensions = [".jpg", ".jpeg", ".gif", ".png"]    
-      return unless extensions.include?(File.extname(item.output_path).downcase)
-
-      image = MiniMagick::Image.read(item.content)
-      image.sepia_tone("80%")
-      image.vignette("10")
-      item.content = image.to_blob
+    #/_extensions/too_cheap_for_instragram.rb
+    require 'mini_magick'
+    
+    class TooCheapForInstagram
+      def process(item)
+        return unless item.is_a?(Potion::StaticFile)
+        extensions = [".jpg", ".jpeg", ".gif", ".png"]    
+        return unless extensions.include?(File.extname(item.output_path).downcase)
+    
+        image = MiniMagick::Image.read(item.content)
+        image.sepia_tone("80%")
+        image.vignette("10")
+        item.content = image.to_blob
+      end
     end
-  end
-
-  Potion::Site.register_extension(TooCheapForInstagram)
+    
+    Potion::Site.register_extension(TooCheapForInstagram)
 
 Extensions alter the site by writing data back to the posts, pages and static files using their accessor methods. Some of the most useful accessor methods are:
 
-  item.content                # the content of the post, page, or static file
-  item.metadata               # a hash of the data loaded from the YAML header of the page or post
-  item.output_path            # the path where the item will be written when the site is generated
-  item.relative_output_path   # the output path of the item relative to the destination root
+    item.content                # the content of the post, page, or static file
+    item.metadata               # a hash of the data loaded from the YAML header of the page or post
+    item.output_path            # the path where the item will be written when the site is generated
+    item.relative_output_path   # the output path of the item relative to the destination root
   
 All of these are getters AND setters. Strange things may happen if you set anything other than the metadata and content though, so beware! To get information on all the getters and setters available it is best to look at the source for the relevant objects (/lib/potion/*.rb).
   

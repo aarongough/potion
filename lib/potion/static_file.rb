@@ -1,11 +1,13 @@
 class Potion::StaticFile
   
-  attr_accessor :path, :site, :content
+  attr_accessor :path, :site, :content, :relative_output_path, :output_path
   
   def initialize(path, site)
     @path = path
     @site = site
     @content = File.open(path) {|stream| stream.read }
+    @relative_output_path = @path.gsub(@site.base_path, "").gsub("_posts/", "")
+    @output_path = File.join(@site.destination_path, @relative_output_path)
   end
   
   def ==(other)
@@ -22,11 +24,9 @@ class Potion::StaticFile
     @content
   end
   
-  def write_to(destination_root)
-    relative_path = @path.gsub(@site.path, "")
-    destination_path = File.join(destination_root, relative_path)
-    FileUtils.mkdir_p(File.split(destination_path)[0])
-    File.open(destination_path, "w+") do |stream|
+  def write
+    FileUtils.mkdir_p(File.split(@output_path)[0])
+    File.open(@output_path, "w+") do |stream|
       stream.puts self.render
     end
   end

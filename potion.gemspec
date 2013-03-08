@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bundler", ">= 1.0.0"
   s.add_dependency "tilt", ">= 1.3.4"
   s.add_dependency "commander", ">= 4.1.3"
+  s.add_dependency "mini_magick"
   
   s.add_dependency 'asciidoctor', '>= 0.1.0'
   s.add_dependency 'RedCloth'

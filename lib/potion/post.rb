@@ -2,7 +2,7 @@ class Potion::Post
   include Potion::Renderable
   include Potion::Helpers
   
-  attr_accessor :path, :static_files, :site, :metadata, :content, :layout
+  attr_accessor :path, :static_files, :site, :metadata, :content, :layout, :output_path, :relative_output_path
   
   def initialize(path, site)
     @path         = path
@@ -13,6 +13,10 @@ class Potion::Post
                     
     load_content_and_metadata
     @layout = @site.find_layout_by_name(@metadata["layout"])
+    @relative_output_path = @path.gsub(@site.base_path, "").
+                            gsub(File.extname(@path), "").
+                            gsub("_posts/", "")
+    @output_path = File.join(@site.destination_path, @relative_output_path)
   end
   
   def ==(other)

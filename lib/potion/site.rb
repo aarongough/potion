@@ -1,6 +1,6 @@
 class Potion::Site
   include Potion
-  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :base_path
+  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path
   
   @@extensions = []
   
@@ -16,8 +16,10 @@ class Potion::Site
     @@extensions
   end
   
-  def initialize(base_path)
+  def initialize(base_path, destination_path)
     @base_path  = base_path
+    @destination_path = destination_path
+    
     @config     = load_config
     
     @files        = find_all_files
@@ -42,7 +44,7 @@ class Potion::Site
   
   def load_extensions
     site_extensions = @files.select {|path| path.include?("_extensions") && File.extname(path) == ".rb" }
-    internal_extensions = Dir[File.expand_path("/extensions/*.rb", __FILE__)]
+    internal_extensions = Dir[File.expand_path(File.join(File.dirname(__FILE__), "/extensions/*.rb"))]
     (internal_extensions + site_extensions).each do |extension|
       require extension
     end
@@ -83,9 +85,9 @@ class Potion::Site
     end
   end
   
-  def write_to(destination_root)
+  def write
     (@posts + @pages + @static_files).each do |item|
-      item.write_to(destination_root)
+      item.write
     end
   end
   

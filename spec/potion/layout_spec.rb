@@ -5,7 +5,8 @@ include Potion
 describe Layout do
   before do
     @fixture_path = File.expand_path(File.dirname(__FILE__) + "/../fixtures/")
-    @site = Site.new(@fixture_path + "/test-site")
+    @destination_path = @fixture_path + "/test-site/_site"
+    @site = Site.new(@fixture_path + "/test-site", @destination_path)
   end
   
   describe '.new' do

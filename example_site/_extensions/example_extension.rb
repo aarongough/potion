@@ -2,6 +2,8 @@ module Potion::Helpers
   def gallery(*args)
     "GALLERY MOTHERFUCKER!! #{args.inspect}"
   end
+  
+  
 end
 
 class MoreCowbell

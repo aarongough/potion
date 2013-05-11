@@ -24,6 +24,8 @@ command :preview do |c|
     FileUtils.rm_rf(destination)
     if !options.no_auto.nil?
       site = Potion::Site.new(site_root, destination)
+      #puts site.layouts.inspect
+      #puts site.pages.inspect
       site.write
     else
       

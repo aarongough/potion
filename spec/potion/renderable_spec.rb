@@ -20,7 +20,7 @@ describe Renderable do
     
     it "should correctly load the item's content" do
       item = Renderable.new(@fixture_path + "/blog/_posts/2013-03-04-a-new-thing/a-new-thing.html.haml", @site)
-      item.content.should == "\nTest123"
+      item.content.should == "Test123"
     end
     
     it "should correctly associate the item with the layout declared in the metadata" do

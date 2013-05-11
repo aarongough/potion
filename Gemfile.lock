@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    potion (0.0.1)
+    potion (0.0.2)
       RedCloth
       asciidoctor (>= 0.1.0)
       bluecloth

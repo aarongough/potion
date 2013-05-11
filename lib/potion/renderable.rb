@@ -19,7 +19,11 @@ class Potion::Renderable
   
   def load_content_and_metadata
     @content  = File.open(path) {|file| file.read}
-    @metadata = YAML.load(@content.slice!(/---([^(\-\-\-)]*)---/, 0))
+    begin
+      @metadata = YAML.load(@content.slice!(/\A(---\s*\n.*?\n?)^(---\s*$\n?)/m, 0))
+    rescue Psych::SyntaxError
+      raise "\n\nERROR: Invalid YAML frontmatter in file: #{@path}\n\n"
+    end
   end
   
   def render
@@ -28,10 +32,16 @@ class Potion::Renderable
     end
     
     layout  = Tilt.new(@layout.path) { @layout.content}
-    item    = Tilt.new(@path) { @content }
     
-    layout.render(self) do
-      item.render(self)
+    if File.extname(@path) == ".html"
+      layout.render(self) do
+        @content
+      end
+    else
+      item    = Tilt.new(@path) { @content }
+      layout.render(self) do
+        item.render(self)
+      end
     end
   end
   

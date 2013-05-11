@@ -9,7 +9,11 @@ class Potion::Renderable
                     
     load_content_and_metadata
     @layout = @site.find_layout_by_name(@metadata["layout"])
-    @relative_output_path ||= path.gsub(site.base_path, "").gsub(File.extname(path), "")
+    
+    @relative_output_path ||= @path
+    @relative_output_path = @relative_output_path.gsub(site.base_path, "")
+    @relative_output_path = @relative_output_path.gsub(File.extname(path), "") unless File.extname(path) == ".html"
+
     @output_path = File.join(@site.destination_path, @relative_output_path)
   end
   

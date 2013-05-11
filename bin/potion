@@ -9,7 +9,7 @@ require 'commander/import'
 
 include WEBrick
 
-program :version, Potion::VERSION.to_s
+program :version, "0.0.1"
 program :description, 'A simple, extensible, static site generator that supports code, photos and files'
  
 command :preview do |c|

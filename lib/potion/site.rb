@@ -63,7 +63,7 @@ class Potion::Site
   end
   
   def find_posts
-    posts = @files.select {|path| path.include? "_posts"}
+    posts = @files.select {|path| path.include?("_posts")}
     posts = filter_for_yaml_metadata(posts)
     posts.map  do |post| 
       Post.new(post, self)

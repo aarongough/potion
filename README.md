@@ -3,7 +3,7 @@ What is Potion?
 
 Potion is a simple, clean, and easily extensible static site generator. Potion is designed from the ground up to be friendly to any tech-savvy person running a blog or website of almost any kind. 
 
-Running a website via a static site generator is great because all your assets and files are able to be easily version-controlled and backed-up. Hosting for static sites is inexpensive, and a server that's only serving static files can handle a lot more load given the same resouces as compared to a server that is serving a site made in a dynamic CMS.
+Running a website via a static site generator is great because all your assets and files are able to be easily version-controlled and backed-up. Hosting for static sites is inexpensive, and a server that's only serving static files can handle a lot more load given the same resources as compared to a server that is serving a site made in a dynamic CMS.
 
 Potion was inspired by Jekyll, however Jekyll was designed to be run as a service that does not allow arbitrary Ruby code to be run (hence it's use of Liquid and Markdown, as opposed to things like Haml). This suits it's purpose perfectly for GitHub, but imposes unnecessary restrictions for other users.
 
@@ -90,11 +90,19 @@ Static Files
 ------------
 
 A static file is any file that does not have a YAML header. Static Files are still processed by Potion to allow extensions the opportunity to perform operations like image resizing etc.
+
+Built-in extensions and helpers
+===============================
+
+SOMETHING ABOUT EXTENSIONS AND HELPERS
   
 Customizing Potion
 ==================
 
 There are two main ways of customizing how Potion functions: Helpers and Extensions.
+
+Helpers
+-------
 
 Helpers are analagous to Rails Helpers, they are methods that you call from a page or post that provide some functionality. Potion ships with a number of built-in helpers, eg:
 
@@ -141,11 +149,14 @@ Whatever the helper returns will be inserted into the calling layout, page or po
   
 For more information on available attributes it's probably best just to refer to the code (there's not much of it, and it's clean!)
 
+Extensions
+----------
+
 Writing an extension gives you the ability to 'filter' each file before it is written to the generated site. This is a good way to resize photos or perform some transformation on all the posts in your site.
 
 An extension is simply a Ruby class that responds to the `process` instance method and takes a single argument. Each extension also needs to register itself after it loads by calling the `Potion::Site.register_extension` method.
 
-For instance if you wanted to apply some 'artsty' filters to all the photos in your website or blog you could write an extension like this:
+For instance if you wanted to apply some 'artsy' filters to all the photos in your website or blog you could write an extension like this:
 
     #/_extensions/too_cheap_for_instagram.rb
     require 'mini_magick'

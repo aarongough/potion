@@ -3,6 +3,7 @@ require 'mini_magick'
 class PhotoResize
   def process(item)
     return unless item.is_a?(Potion::Post)
+    return unless item.site.config["photo_resize"]["enabled"]
     extensions = [".jpg", ".jpeg", ".gif", ".png"]    
 
     item.static_files.each do |file|

@@ -6,6 +6,7 @@ require 'potion'
 require 'fileutils'
 require 'webrick'
 require 'commander/import'
+require 'directory_watcher'
 
 include WEBrick
 
@@ -24,20 +25,36 @@ command :preview do |c|
     FileUtils.rm_rf(destination)
     if !options.no_auto.nil?
       site = Potion::Site.new(site_root, destination)
-      #puts site.layouts.inspect
-      #puts site.pages.inspect
       site.write
     else
+      site = Potion::Site.new(site_root, destination)
+      site.write
       
+      puts "Starting with automatic site regeneration..."
+      dw = DirectoryWatcher.new(site_root, :glob => '**/*', :pre_load => true)
+      dw.interval = 1
+      dw.add_observer do |*args|
+        unless args.first.path.include?("_site")
+          puts "File changes detected, regenerating site..."
+          site = Potion::Site.new(site_root, destination)
+          site.write
+        end
+      end
+      
+      dw.start
     end
     
     server = HTTPServer.new(:Port => 4000, :BindAddress => "localhost")
     server.mount("/", HTTPServlet::FileHandler, destination)
     
-    
     thread = Thread.new { server.start }
-    trap("INT") { server.shutdown }
-    thread.join()
+    trap("INT") { 
+      server.shutdown
+      exit 0 
+    }
+    
+    thread.run
+    loop { sleep 1000 }
   end
 end
 

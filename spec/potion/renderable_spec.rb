@@ -54,4 +54,11 @@ describe Renderable do
       post.render.should == "Main layout\nTest123\n"
     end
   end
+  
+  describe '#title' do
+    it "return a human-readable version of the filename" do
+      post = Renderable.new(@fixture_path + "/blog/_posts/2013-03-04-a-new-thing/a-new-thing.html.haml", @site)
+      post.title.should == "A new thing"
+    end
+  end
 end

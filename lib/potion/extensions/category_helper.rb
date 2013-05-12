@@ -4,6 +4,6 @@ module Potion::Helpers
       post.relative_output_path.split("/").select {|chunk| chunk != ""}[0] == name
     end
     
-    posts.sort {|a,b| a.relative_output_path <=> b.relative_output_path }
+    posts.sort {|a,b| a.relative_output_path <=> b.relative_output_path}
   end
 end

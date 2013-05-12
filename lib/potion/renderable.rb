@@ -12,7 +12,7 @@ class Potion::Renderable
     
     @relative_output_path ||= @path
     @relative_output_path = @relative_output_path.gsub(site.base_path, "")
-    @relative_output_path = @relative_output_path.gsub(File.extname(path), "") unless File.extname(path) == ".html"
+    @relative_output_path = @relative_output_path.gsub(File.extname(path), "") unless self.is_html?
 
     @output_path = File.join(@site.destination_path, @relative_output_path)
   end
@@ -33,7 +33,7 @@ class Potion::Renderable
     
     layout  = Tilt.new(@layout.path) { @layout.content}
     
-    if File.extname(@path) == ".html"
+    if self.is_html?
       layout.render(self) do
         @content
       end
@@ -59,5 +59,17 @@ class Potion::Renderable
     end
     
     true
+  end
+  
+  def title
+    filename = File.split(@path)[1]
+    filename = filename.gsub(File.extname(filename), "")
+    filename = filename.gsub(File.extname(filename), "") unless self.is_html?
+    filename = filename.gsub("-", " ")
+    filename[0].upcase + filename[1..-1]
+  end
+  
+  def is_html?
+    File.extname(@path) == ".html"
   end
 end

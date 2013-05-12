@@ -56,9 +56,18 @@ describe Renderable do
   end
   
   describe '#title' do
-    it "return a human-readable version of the filename" do
-      post = Renderable.new(@fixture_path + "/blog/_posts/2013-03-04-a-new-thing/a-new-thing.html.haml", @site)
-      post.title.should == "A new thing"
+    context "when there is a title in the metadata" do
+      it "should return the title from the metadata" do
+        post = Renderable.new(@fixture_path + "/blog/_posts/2013-03-04-a-new-thing/a-new-thing.html.haml", @site)
+        post.title.should == "blah something"
+      end
+    end
+    
+    context "when there is no title in the metadata" do
+      it "return a human-readable version of the filename" do
+        post = Renderable.new(File.expand_path(File.dirname(__FILE__) + "/../fixtures/a-new-thing-2.html"), @site)
+        post.title.should == "A new thing 2"
+      end
     end
   end
 end

@@ -62,10 +62,13 @@ class Potion::Renderable
   end
   
   def title
+    return self.metadata["title"] unless self.metadata["title"].nil?
+    
     filename = File.split(@path)[1]
-    filename = filename.gsub(File.extname(filename), "")
-    filename = filename.gsub(File.extname(filename), "") unless self.is_html?
-    filename = filename.gsub("-", " ")
+    filename.gsub!(/\d+-\d+-\d+-/, "")
+    filename.gsub!(File.extname(filename), "")
+    filename.gsub!(File.extname(filename), "") unless self.is_html?
+    filename.gsub!("-", " ")
     filename[0].upcase + filename[1..-1]
   end
   

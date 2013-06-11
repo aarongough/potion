@@ -36,6 +36,7 @@ command :preview do |c|
       dw.add_observer do |*args|
         unless args.first.path.include?("_site")
           puts "File changes detected, regenerating site..."
+          FileUtils.rm_rf(destination)
           site = Potion::Site.new(site_root, destination)
           site.write
         end

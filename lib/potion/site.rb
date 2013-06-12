@@ -40,7 +40,8 @@ class Potion::Site
   end
   
   def find_all_files
-    Dir[@base_path + "/**/*.*"]
+    Dir[@base_path + "/**/*"].reject {|x| File.directory?(x)}
+    
   end
   
   def load_extensions

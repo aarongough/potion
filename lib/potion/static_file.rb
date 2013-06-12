@@ -20,6 +20,7 @@ class Potion::StaticFile
     @site.class.extensions.each do |extension|
       extension.new.process(self)
     end
+    puts self.path
     
     @content
   end

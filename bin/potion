@@ -59,3 +59,7 @@ command :preview do |c|
   end
 end
 
+command 'deploy' do |c|
+  
+end
+

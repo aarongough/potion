@@ -31,14 +31,14 @@ class Potion::Renderable
       extension.new.process(self)
     end
     
-    layout  = Tilt.new(@layout.path) { @layout.content}
+    layout = Tilt.new(@layout.path) { @layout.content}
     
     if self.is_html?
       layout.render(self) do
         @content
       end
     else
-      item    = Tilt.new(@path) { @content }
+      item = Tilt.new(@path) { @content }
       layout.render(self) do
         item.render(self)
       end

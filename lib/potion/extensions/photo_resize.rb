@@ -4,6 +4,8 @@ class PhotoResize
   def process(item)
     return unless item.path.include?("_posts")
     return unless item.site.config["photo_resize"]["enabled"]
+    return if item.site.fast_build
+    
     extensions = [".jpg", ".jpeg", ".gif", ".png"]    
 
     return unless extensions.include?(File.extname(item.output_path).downcase)

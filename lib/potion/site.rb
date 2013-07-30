@@ -1,6 +1,6 @@
 class Potion::Site
   include Potion
-  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path, :metadata
+  attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path, :metadata, :fast_build
   
   @@extensions = []
   
@@ -16,9 +16,10 @@ class Potion::Site
     @@extensions
   end
   
-  def initialize(base_path, destination_path)
+  def initialize(base_path, destination_path, fast_build = false)
     @base_path  = base_path
     @destination_path = destination_path
+    @fast_build = fast_build
     
     @config     = load_config
     @metadata   = {}

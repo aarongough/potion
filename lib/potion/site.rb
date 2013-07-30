@@ -1,5 +1,6 @@
 class Potion::Site
   include Potion
+  include Potion::Deployers
   attr_accessor :base_path, :config, :pages, :posts, :static_files, :layouts, :files, :destination_path, :metadata, :fast_build
   
   @@extensions = []
@@ -47,8 +48,7 @@ class Potion::Site
   
   def load_extensions
     site_extensions = @files.select {|path| path.include?("_extensions") && File.extname(path) == ".rb" }
-    internal_extensions = Dir[File.expand_path(File.join(File.dirname(__FILE__), "/extensions/*.rb"))]
-    (internal_extensions + site_extensions).each do |extension|
+    site_extensions.each do |extension|
       require extension
     end
   end
@@ -89,9 +89,15 @@ class Potion::Site
   end
   
   def write
+    puts "*** Building...\n"
+    
     (@posts + @pages + @static_files).each do |item|
       item.write
     end
+  end
+  
+  def deploy_to(target)
+    self.send("deploy_to_#{target}", @destination_path)
   end
   
   private

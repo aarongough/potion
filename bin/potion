@@ -59,7 +59,36 @@ command :preview do |c|
   end
 end
 
-command 'deploy' do |c|
-  
+command :deploy do |c|
+  c.syntax = 'potion deploy TARGET'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.action do |args, options|
+    unless `git status`.include?("working directory clean")
+      puts "\nERROR: You should commit all your local changes before deploying.\n\n"
+      exit
+    end
+    
+    site_root = `pwd`.strip
+    destination = File.join(site_root, "_site")
+    FileUtils.rm_rf(destination)
+    site = Potion::Site.new(site_root, destination)
+    site.write
+    
+    server = HTTPServer.new(:Port => 4000, :BindAddress => "localhost")
+    server.mount("/", HTTPServlet::FileHandler, destination)
+    
+    thread = Thread.new { server.start }    
+    thread.run
+    
+    puts "\n\n*** The site has been built, please check it at localhost:4000 and then hit enter to continue with the deploy..."
+    puts "*** Press CTRL+C if the site is not as expected and you with to abort the deploy.\n\n"
+    $stdin.gets
+    
+    deploy_target = args.first
+    site.deploy_to(deploy_target)
+  end
 end
+
 

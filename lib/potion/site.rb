@@ -37,7 +37,7 @@ class Potion::Site
   
   def load_config
     config_path = File.join(@base_path, "_config.yaml")
-    raise "No config file found at #{config_path}" unless File.exists?(config_path)
+    raise "No config file found at '#{config_path}'" unless File.exists?(config_path)
     config = YAML.load(File.open(config_path))
     return {} if config == false
     config

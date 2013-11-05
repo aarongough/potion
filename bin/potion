@@ -10,7 +10,7 @@ require 'directory_watcher'
 
 include WEBrick
 
-program :version, "0.0.1"
+program :version, "0.0.3"
 program :description, 'A simple, extensible, static site generator that supports code, photos and files'
  
 command :preview do |c|
@@ -45,6 +45,7 @@ command :preview do |c|
       dw.start
     end
     
+    puts "Server starting at: 'localhost:4000'"
     server = HTTPServer.new(:Port => 4000, :BindAddress => "localhost")
     server.mount("/", HTTPServlet::FileHandler, destination)
     

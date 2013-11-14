@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/aarongough/potion"
   s.summary     = "A static site generator that supports code, photos and files."
   s.description = "A static site generator that supports code, photos and files."
+  s.license     = 'MIT'
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "potion"

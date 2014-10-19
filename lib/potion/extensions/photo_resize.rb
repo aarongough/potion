@@ -10,9 +10,14 @@ class PhotoResize
     extensions = [".jpg", ".jpeg", ".gif", ".png"]    
 
     return unless extensions.include?(File.extname(item.output_path).downcase)
-    image = MiniMagick::Image.read(item.content)
-    image.resize(item.site.config["photo_resize"]["size"])
-    item.content = image.to_blob
+
+    begin
+        image = MiniMagick::Image.read(item.content)
+        image.resize(item.site.config["photo_resize"]["size"])
+        item.content = image.to_blob
+    rescue => e
+        raise "ERROR: Something went wrong when resizing images, do you have ImageMagick installed?\n\n#{e}"
+    end
   end
 end
 

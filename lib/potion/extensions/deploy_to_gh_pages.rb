@@ -1,6 +1,6 @@
 module Potion::Deployers
   def deploy_to_gh_pages(source_dir)
-    original_branch = `git status`.match(/# On branch (?<branch>\S*)/)['branch']
+    original_branch = `git status`.match(/On branch (?<branch>\S*)/)['branch']
     
     base_dir = `pwd`.strip
     tmp_file_path = "/tmp/potion_#{Time.now.to_i}"
